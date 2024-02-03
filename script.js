@@ -2,6 +2,8 @@
 let colorIcons = document.querySelector(".color-icon"),
 icons = document.querySelector(".color-icon .icons");
 
+
+
 icons.addEventListener("click" , ()=>{
   colorIcons.classList.toggle("open");
 })
@@ -47,3 +49,24 @@ for (var button of buttons) {
     }
   });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get the button, cover page, nav, and main content elements
+  const enterButton = document.getElementById("enterButton");
+  const coverPage = document.getElementById("app");
+  const nav = document.querySelector("nav");
+  const mainContent = document.getElementById("mainContent");
+
+  // Add click event listener to the button
+  enterButton.addEventListener("click", function () {
+      // Slide up the cover page and hide the nav bar
+      coverPage.classList.add("hidden");
+      
+      nav.style.display = "flex";
+      // Show the main content
+      mainContent.style.display = "block";
+  });
+});
+
+
+
