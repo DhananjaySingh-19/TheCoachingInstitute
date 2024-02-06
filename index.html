@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <title> The Coaching Institute </title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Fontawesome CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">  -->
-    <link rel="stylesheet" href="tempStyle.css">
+    <!-- <link rel="stylesheet" href="tempStyle.css"> -->
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body>
@@ -24,53 +26,42 @@
     </div>
 </div>
 
-  <nav>
-    <div class="navbar">
-      <div class="logo"><a href="#">The Coaching Institute</a></div>
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Skills</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
+  
+     <div class="navbar" id="navigatio_menu" style="display: none;">
+      <div class="navbar-logo"><h1 class="imge" >THE COACHING INSTITUTE</h1></div>
+      <ul class="navbar-menu">
+        <li><a href="#" class="link ">Home</a></li>
+        <li><a href="#" class="link ">About</a></li>
+        <li><a href="#" class="link ">Skills</a></li>
+        <li><a href="#" class="link ">Services</a></li>
+        <li><a href="#" class="link ">Contact</a></li>
       </ul>
-      <div class="appearance">
-        <div class="light-dark">
-          <i class="btn fas fa-moon" data-color="#e4e6eb #e4e6eb #24292D #24292D #242526"></i>
-        </div>
-        <div class="color-icon">
-          <div class="icons">
-            <i class="fas fa-palette"></i>
-            <i class="fas fa-sort-down arrow"></i>
-          </div>
-          <div class="color-box">
-            <h3>Color Switcher</h3>
-            <div class="color-switchers">
-              <button class="btn blue active" data-color="#fff #24292d #4070f4 #0b3cc1 #F0F8FF"></button>
-              <button class="btn orange" data-color="#fff #242526 #F79F1F #DD8808 #fef5e6"></button>
-              <button class="btn purple" data-color="#fff #242526 #8e44ad #783993 #eadaf1"></button>
-              <button class="btn green" data-color="#fff #242526 #3A9943 #2A6F31 #DAF1DC"></button>
-            </div>
-          </div>
-        </div>
+
+      <div class="navbar-hamburger">
+        &#9776;
+
+        
       </div>
-    </div>
-  </nav>
 
-  <section class="home-content">
-    <div class="texts">
-      <h2 class="text">Empowering Students  </h2>
-      <h3 class="text">to <span>Learn Better...</span></h3>
-      <p>Lorem ipsum dolor sited and ametvel, nobised, minimali! Quibusdam temporibus, placeate reessed veritatis optio aliquam illum debitis at, perspiciatis consequatur iure vel, quae ratione. Praesentium, at.</p>
-      <!-- <div class="button">
-      <a href="#">Explore Me
-      <i class="fas fa-location-arrow"></i></a>
-    </div> -->
-  </section>
+      
+    </div> 
 
+    <div class="background-container"></div>
+    <div class="content">
+
+        <!-- Page content goes here -->
+      
+      </div>
+    
+  
 
 
-  <script src="script.js"></script>
+
+    
+
+
+
+  
   <script type="module">
     //import the particle curser
     import { particlesCursor } from 'https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js'
@@ -91,6 +82,166 @@
         sleepTimeCoefY: 0.002
     });
 </script>
+
+<script src="script.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // Toggle navbar menu on hamburger icon click
+        const navbar = document.querySelector('.navbar');
+        const navbarHamburger = document.querySelector('.navbar-hamburger');
+
+        navbarHamburger.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+        });
+
+        let scene,
+            camera,
+            renderer,
+            cloudParticles = [],
+            rainParticles = [],
+            flash,
+            rain,
+            rainGeo,
+            rainCount = 5000; // Reduce the number of rain particles to 5000
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(
+                60,
+                window.innerWidth / window.innerHeight,
+                1,
+                1000
+            );
+            camera.position.z = 1;
+            camera.rotation.x = 1.16;
+            camera.rotation.y = -0.12;
+            camera.rotation.z = 0.27;
+
+            ambient = new THREE.AmbientLight(0x555555);
+            scene.add(ambient);
+
+            directionalLight = new THREE.DirectionalLight(0xffeedd);
+            directionalLight.position.set(0, 0, 1);
+            scene.add(directionalLight);
+
+            flash = new THREE.PointLight(0x062d89, 30, 500, 1.7);
+            flash.position.set(200, 300, 100);
+            scene.add(flash);
+
+            renderer = new THREE.WebGLRenderer();
+
+            scene.fog = new THREE.FogExp2(0x11111f, 0.002);
+            renderer.setClearColor(scene.fog.color);
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            let positions = [];
+            let sizes = [];
+            rainGeo = new THREE.BufferGeometry();
+            for (let i = 0; i < rainCount; i++) {
+                rainDrop = new THREE.Vector3(
+                    Math.random() * 400 - 200,
+                    Math.random() * 500 - 250,
+                    Math.random() * 400 - 200
+                );
+                positions.push(Math.random() * 400 - 200);
+                positions.push(Math.random() * 500 - 250);
+                positions.push(Math.random() * 400 - 200);
+                sizes.push(30);
+            }
+            rainGeo.setAttribute(
+                'position',
+                new THREE.BufferAttribute(new Float32Array(positions), 3)
+            );
+            rainGeo.setAttribute(
+                'size',
+                new THREE.BufferAttribute(new Float32Array(sizes), 1)
+            );
+            rainMaterial = new THREE.PointsMaterial({
+                color: 0xaaaaaa,
+                size: 0.1,
+                transparent: true
+            });
+            rain = new THREE.Points(rainGeo, rainMaterial);
+            scene.add(rain);
+
+            let loader = new THREE.TextureLoader();
+            loader.load(
+                'https://static.vecteezy.com/system/resources/previews/010/884/548/original/dense-fluffy-puffs-of-white-smoke-and-fog-on-transparent-background-abstract-smoke-clouds-movement-blurred-out-of-focus-smoking-blows-from-machine-dry-ice-fly-fluttering-in-air-effect-texture-png.png',
+                function (texture) {
+                    cloudGeo = new THREE.PlaneBufferGeometry(500, 500);
+                    cloudMaterial = new THREE.MeshLambertMaterial({
+                        map: texture,
+                        transparent: true
+                    });
+
+                    for (let p = 0; p < 25; p++) {
+                        let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+                        cloud.position.set(
+                            Math.random() * 800 - 400,
+                            500,
+                            Math.random() * 500 - 450
+                        );
+                        cloud.rotation.x = 1.16;
+                        cloud.rotation.y = -0.12;
+                        cloud.rotation.z = Math.random() * 360;
+                        cloud.material.opacity = 0.6;
+                        cloudParticles.push(cloud);
+                        scene.add(cloud);
+                    }
+                    animate();
+                    window.addEventListener('resize', onWindowResize);
+                }
+            );
+
+                // Append renderer to background container
+    document.querySelector('.background-container').appendChild(renderer.domElement);
+
+// Start animation loop
+animate();
+        }
+
+        function animate() {
+            cloudParticles.forEach((p) => {
+                p.rotation.z -= 0.002;
+            });
+            rainGeo.attributes.size.array.forEach((r, i) => {
+                r += 0.3;
+            });
+            const time = Date.now() * 0.005;
+
+            rainGeo.verticesNeedUpdate = true;
+
+            rain.position.z -= 0.222;
+            if (rain.position.z < -200) {
+                rain.position.z = 0;
+            }
+
+            if (Math.random() > 0.93 || flash.power > 100) {
+                if (flash.power < 100)
+                    flash.position.set(
+                        Math.random() * 400,
+                        300 + Math.random() * 200,
+                        100
+                    );
+                flash.power = 50 + Math.random() * 500;
+            }
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        init();
+    </script>
 
 </body>
 </html>

@@ -3,10 +3,10 @@ let colorIcons = document.querySelector(".color-icon"),
 icons = document.querySelector(".color-icon .icons");
 
 
-
+if(icons!=null){
 icons.addEventListener("click" , ()=>{
   colorIcons.classList.toggle("open");
-})
+}) }
 
 // getting all .btn elements
 let buttons = document.querySelectorAll(".btn");
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Get the button, cover page, nav, and main content elements
   const enterButton = document.getElementById("enterButton");
   const coverPage = document.getElementById("app");
-  const nav = document.querySelector("nav");
+  const nav = document.getElementById("navigatio_menu");
   const mainContent = document.getElementById("mainContent");
 
   // Add click event listener to the button
