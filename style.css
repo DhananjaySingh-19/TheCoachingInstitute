@@ -526,7 +526,7 @@ button:focus {
 .infoList {
   position: absolute;
   width: calc(3 * var(--card-width));
-  height: var(--card-height);
+  height:600px;
   pointer-events: none;
 }
 
@@ -546,7 +546,7 @@ button:focus {
 
 
 .info {
-  margin-bottom: calc(var(--card-height) / 8);
+  margin-bottom: 0px; /* calc(var(--card-height) / 50); */
   margin-left: calc(var(--card-width) / 1.5);
   transform: translateZ(2rem);
   transition: transform var(--card-transition-duration) var(--card-transition-easing);
