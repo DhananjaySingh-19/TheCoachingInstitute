@@ -192,6 +192,10 @@ document.addEventListener("DOMContentLoaded", function () {
          // Append renderer to background container
 document.querySelector('.background-container').appendChild(renderer.domElement);
 
+
+
+
+
 // Start animation loop
 animate();
  }
